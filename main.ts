@@ -1,9 +1,3 @@
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
-    if (Wrench.overlapsWith(Engineer)) {
-        info.changeScoreBy(1)
-        sprite.destroy()
-    }
-})
 scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
     if (tiles.tileAtLocationEquals(location, myTiles.tile1)) {
         info.changeLifeBy(-1)
@@ -12,8 +6,6 @@ scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
 })
 let limit = 0
 let Falling: Sprite = null
-let Wrench: Sprite = null
-let Engineer: Sprite = null
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -138,7 +130,7 @@ scene.setBackgroundImage(img`
     `)
 info.setScore(0)
 info.setLife(3)
-Engineer = sprites.create(img`
+let Engineer = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . . e e e e e e e e . . . . 
@@ -156,26 +148,9 @@ Engineer = sprites.create(img`
     . . . . 8 8 . . 8 8 . . . . . . 
     . . . . e e . . e e . . . . . . 
     `, SpriteKind.Player)
-Wrench = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . f f . . . . 
-    . . . . . . . . . f f . . . . . 
-    . . . . . . . . f f . . . . . . 
-    . . . . . . . . f f . . . . f . 
-    . . . . . . . . f f f . . f f . 
-    . . . . . . . f f f f f f f . . 
-    . . . . . . f f f f f f f . . . 
-    . . . . . f f f f f . . . . . . 
-    . . . . f f f f f . . . . . . . 
-    . . . f f f f f . . . . . . . . 
-    . . f f f f f . . . . . . . . . 
-    . f f f f f . . . . . . . . . . 
-    . f f f f . . . . . . . . . . . 
-    . f f f . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Projectile)
 Engineer.setPosition(80, 108)
 controller.moveSprite(Engineer, 160, 0)
+Engineer.setFlag(SpriteFlag.StayInScreen, true)
 game.onUpdateInterval(5000, function () {
     Falling = sprites.create(img`
         . . . . . . . . . . . . . . . . 
@@ -199,4 +174,8 @@ game.onUpdateInterval(5000, function () {
     limit = Math.min(10, info.score())
     Falling.setVelocity(1, 11)
     Falling.ay = 3
+    if (Falling.overlapsWith(Engineer)) {
+        info.changeScoreBy(1)
+        Falling.destroy()
+    }
 })
