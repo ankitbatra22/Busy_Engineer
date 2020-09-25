@@ -1,5 +1,19 @@
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
+    if (Wrench.overlapsWith(Engineer)) {
+        info.changeScoreBy(1)
+        sprite.destroy()
+    }
+})
+scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
+    if (tiles.tileAtLocationEquals(location, myTiles.transparency16)) {
+        info.changeLifeBy(-1)
+        sprite.destroy()
+    }
+})
 let limit = 0
 let Falling: Sprite = null
+let Wrench: Sprite = null
+let Engineer: Sprite = null
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -122,26 +136,10 @@ scene.setBackgroundImage(img`
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
     `)
+info.setScore(0)
 info.setLife(3)
-let Engineer = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . e e e e e e e e . . . . 
-    . . . e e e e e e e e e . . . . 
-    . . . e e e d d d d d d . . . . 
-    . . . d e d d f d d f d . . . . 
-    . . . d e d d f d d f d . . . . 
-    . . . e d d d d d d d d . . . . 
-    . . . e d d d d 1 1 d d . . . . 
-    . . . 4 4 4 4 4 4 4 4 4 . . . . 
-    . . . d d 4 4 4 4 4 4 d . . . . 
-    . . . d d 4 4 4 4 4 4 d . . . . 
-    . . . d d f f f 1 f f d . . . . 
-    . . . 8 8 8 8 8 8 8 8 . . . . . 
-    . . . . 8 8 . . 8 8 . . . . . . 
-    . . . . e e . . e e . . . . . . 
-    `, SpriteKind.Player)
-let Wrench = sprites.create(img`
+Engineer = 0
+Wrench = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . f f . . . . 
     . . . . . . . . . f f . . . . . 
@@ -179,9 +177,9 @@ game.onUpdateInterval(5000, function () {
         . f f f f . . . . . . . . . . . 
         . f f f . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
-        `, SpriteKind.Player)
+        `, SpriteKind.Projectile)
     Falling.setPosition(randint(20, 140), 0)
     limit = Math.min(10, info.score())
-    Falling.setVelocity(1, randint(0 - limit, 5))
+    Falling.setVelocity(1, 11)
     Falling.ay = 3
 })
