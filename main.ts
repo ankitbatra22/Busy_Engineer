@@ -4,9 +4,9 @@ enum ActionKind {
     Jumping,
     flying
 }
-scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
-    if (tiles.tileAtLocationEquals(location, myTiles.tile1)) {
-        info.changeLifeBy(-1)
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
+    if (otherSprite.y > 21) {
+        info.setScore(info.score() + 1)
         sprite.destroy()
     }
 })
@@ -391,11 +391,10 @@ game.onUpdateInterval(5000, function () {
     limit = Math.min(10, info.score())
     Falling.setVelocity(1, 11)
     Falling.ay = 3
-    if (Falling.overlapsWith(Engineer)) {
-        info.changeScoreBy(1)
+})
+forever(function () {
+    if (Falling.y >= 108) {
+        info.changeLifeBy(-1)
         Falling.destroy()
     }
-})
-game.onUpdateInterval(500, function () {
-	
 })
