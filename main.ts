@@ -5,7 +5,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, ot
     }
 })
 scene.onHitWall(SpriteKind.Projectile, function (sprite, location) {
-    if (tiles.tileAtLocationEquals(location, myTiles.transparency16)) {
+    if (tiles.tileAtLocationEquals(location, myTiles.tile1)) {
         info.changeLifeBy(-1)
         sprite.destroy()
     }
@@ -133,12 +133,29 @@ scene.setBackgroundImage(img`
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
     dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-    dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-    dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     `)
 info.setScore(0)
 info.setLife(3)
-Engineer = 0
+Engineer = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . e e e e e e e e . . . . 
+    . . . e e e e e e e e e . . . . 
+    . . . e e e d d d d d d . . . . 
+    . . . d e d d f d d f d . . . . 
+    . . . d e d d f d d f d . . . . 
+    . . . e d d d d d d d d . . . . 
+    . . . e d d d d 1 1 d d . . . . 
+    . . . 4 4 4 4 4 4 4 4 4 . . . . 
+    . . . d d 4 4 4 4 4 4 d . . . . 
+    . . . d d 4 4 4 4 4 4 d . . . . 
+    . . . d d f f f 1 f f d . . . . 
+    . . . 8 8 8 8 8 8 8 8 . . . . . 
+    . . . . 8 8 . . 8 8 . . . . . . 
+    . . . . e e . . e e . . . . . . 
+    `, SpriteKind.Player)
 Wrench = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . f f . . . . 
